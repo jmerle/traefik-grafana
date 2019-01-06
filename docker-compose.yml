@@ -1,0 +1,31 @@
+version: '3.5'
+services:
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SERVER_DOMAIN=${DOMAIN}
+      - GF_SERVER_ROOT_URL=https://${DOMAIN}
+      - GF_SECURITY_ADMIN_USER=${USERNAME}
+      - GF_SECURITY_ADMIN_PASSWORD=${PASSWORD}
+      - GF_METRICS_ENABLED=true
+      - GF_METRICS_BASIC_AUTH_USERNAME=${USERNAME}
+      - GF_METRICS_BASIC_AUTH_PASSWORD=${PASSWORD}
+      - GF_ANALYTICS_REPORTING_ENABLED=false
+      - GF_INSTALL_PLUGINS=${PLUGINS}
+    volumes:
+      - grafana:/var/lib/grafana
+    networks:
+      - traefik
+    labels:
+      traefik.enable: true
+      traefik.port: 3000
+      traefik.frontend.rule: "Host:${DOMAIN}"
+    restart: unless-stopped
+volumes:
+  grafana:
+networks:
+  traefik:
+    name: ${TRAEFIK_NETWORK}
+    external: true
