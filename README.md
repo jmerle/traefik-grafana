@@ -1,4 +1,4 @@
-# Docker Compose Grafana
+# Traefik Grafana
 
 A Docker Compose configuration to run [Grafana](https://grafana.com/) behind a [Traefik](https://traefik.io/) reverse proxy.
 
